@@ -1,0 +1,12 @@
+micronaut:
+  application:
+    name: micronaut-kotlin-crud
+  server:
+    port: 8080
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: myDatabase
