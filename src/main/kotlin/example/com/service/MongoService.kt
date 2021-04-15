@@ -1,36 +1,22 @@
 package example.com.service
 
+import com.mongodb.client.result.InsertOneResult
+import com.mongodb.client.result.UpdateResult
 import example.com.model.Person
-import example.com.repository.MongoRepositoryLocal
+import example.com.repository.MongoMicronautRepository
 import javax.inject.Singleton
 
 @Singleton
-class MongoService {
+class MongoService(private val mongoRepository: MongoMicronautRepository) {
 
-    var mongoRepository: MongoRepositoryLocal
+    fun getAll(): List<Person> = mongoRepository.findAll()
 
-    constructor(mongoRepository: MongoRepositoryLocal){
-        this.mongoRepository = mongoRepository
-    }
+    fun getByDoc(doc: String): Person = mongoRepository.findByDoc(doc)!!
 
-    fun getAll(): MutableList<Person> {
-        return mongoRepository.findAll()
-    }
+    fun insert(body: Person): InsertOneResult = mongoRepository.create(body)
 
-    fun getById(id: String): Person {
-        return mongoRepository.findById(id).get()
-    }
+    fun update(doc: String, body: Person): UpdateResult = mongoRepository.update(doc, body)
 
-    fun insert(body: Person): Person {
-        return mongoRepository.insert(body)
-    }
+    fun delete(doc: String) = mongoRepository.deleteByDoc(doc)
 
-    fun update(body: Person): Person {
-        return mongoRepository.insert(body)
-
-    }
-
-    fun delete(id: String) {
-        return mongoRepository.deleteById(id)
-    }
 }

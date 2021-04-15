@@ -30,11 +30,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     implementation("io.micronaut:micronaut-validation")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb:2.4.4")
+    implementation("io.micronaut.configuration:micronaut-mongo-sync:2.0.1")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
-
 
 application {
     mainClass.set("example.com.ApplicationKt")

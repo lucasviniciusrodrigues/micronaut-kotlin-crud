@@ -1,5 +1,7 @@
 package example.com.controller
 
+import com.mongodb.client.result.InsertOneResult
+import com.mongodb.client.result.UpdateResult
 import example.com.model.Person
 import example.com.service.MongoService
 import io.micronaut.http.annotation.*
@@ -8,41 +10,22 @@ import java.net.http.HttpResponse
 import javax.inject.Inject
 
 @Controller("crud/v1")
-class CrudController {
-
-    private var mongoService: MongoService
-
-    @Inject
-    constructor(mongoService: MongoService){
-        this.mongoService = mongoService
-    }
+class CrudController(private val mongoService: MongoService) {
 
     @Get("/all")
-    fun getAll(): MutableList<Person> {
-        return mongoService.getAll()
-    }
+    fun getAll(): List<Person> = mongoService.getAll()
 
-    @Get("{id}")
-    fun getById(@Header("id") id: String): Person {
-        return mongoService.getById(id)
-    }
-
+    @Get("/{doc}")
+    fun getBydoc(@PathVariable("doc") doc: String): Person = mongoService.getByDoc(doc)
 
     @Post()
-    fun post(@Body body: Person): Person {
-        return mongoService.insert(body)
-    }
+    fun post(@Body body: Person): InsertOneResult = mongoService.insert(body)
 
+    @Put("/{doc}")
+    fun update(@PathVariable("doc") doc: String,
+               @Body body: Person): UpdateResult = mongoService.update(doc, body)
 
-    @Put()
-    fun update(@Body body: Person): Person {
-        return mongoService.update(body)
-    }
-
-
-    @Delete("{id}")
-    fun delete(@Header("id") id: String) {
-        mongoService.delete(id)
-    }
+    @Delete("/{doc}")
+    fun delete(@PathVariable("doc") doc: String) = mongoService.delete(doc)
 
 }
